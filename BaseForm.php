@@ -54,6 +54,11 @@ abstract class BaseForm
         $this->setErrors($errors);
     }
 
+    public function cell($class, array $options = [])
+    {
+        return view_cell($class . '::render', $options = []);
+    }
+
     public function getErrors() : array
     {
         return $this->_errors;
