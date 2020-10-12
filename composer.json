@@ -1,0 +1,9 @@
+{
+    "name": "basic-app/form",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "BasicApp\\Form\\": ""
+        }
+    }
+}
