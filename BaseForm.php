@@ -6,13 +6,46 @@
  */
 namespace BasicApp\Form;
 
+use BasicApp\HtmlHelper\HtmlHelper;
 use BasicApp\UrlHelper\UrlHelper;
 use CodeIgniter\Entity;
 
 abstract class BaseForm
 {
 
-    protected $_errors = [];    
+    protected $_errors = [];
+
+    public $errorClass = 'is-invalid';
+
+    public $formAttributes = [];
+
+    public $hiddenAttributes = [];
+
+    public $inputAttributes = [];
+
+    public $passwordAttributes = [];
+
+    public $uploadAttributes = [];
+
+    public $multiselectAttributes = [];
+
+    public $dropdownAttributes = [];
+
+    public $checkboxAttributes = [];
+
+    public $radioAttributes = [];
+
+    public $submitAttributes = [];
+
+    public $resetAttributes = [];
+
+    public $buttonAttributes = [];
+
+    public $labelAttributes = [];
+
+    public $datalistAttributes = [];
+
+    public $fieldsetAttributes = [];
 
     public function __construct(array $errors = [])
     {
@@ -116,6 +149,8 @@ abstract class BaseForm
             $action = UrlHelper::currentUrl();
         }
 
+        $attributes = HtmlHelper::mergeAttributes($this->formAttributes, $attributes);
+
         return form_open($action, $attributes, $hidden);
     }
 
@@ -125,6 +160,8 @@ abstract class BaseForm
         {
             $action = UrlHelper::currentUrl();
         }
+
+        $attributes = HtmlHelper::mergeAttributes($this->formAttributes, $attributes);
 
         return form_open_multipart($action, $attributes, $hidden);
     }
@@ -137,6 +174,13 @@ abstract class BaseForm
     public function hidden($data, $name, array $attributes = []): string
     {
         $value = $this->getValue($data, $name, $attributes);
+
+        $attributes = HtmlHelper::mergeAttributes($this->hiddenAttributes, $attributes);
+
+        if ($this->getError($name, $attributes))
+        {
+            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+        }
 
         return form_hidden($name, $value);
     }
@@ -156,12 +200,26 @@ abstract class BaseForm
 
         $value = $this->getValue($data, $name, $attributes);
 
+        $attributes = HtmlHelper::mergeAttributes($this->inputAttributes, $attributes);
+
+        if ($this->getError($name, $attributes))
+        {
+            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+        }
+
         return form_input($name, $value, $attributes, $type);
     }
 
     public function password($data, $name, array $attributes = []): string
     {
         $value = $this->getValue($data, $name, $attributes);
+
+        $attributes = HtmlHelper::mergeAttributes($this->passwordAttributes, $attributes);
+
+        if ($this->getError($name, $attributes))
+        {
+            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+        }
 
         return form_password($name, $value, $attributes);
     }
@@ -175,6 +233,13 @@ abstract class BaseForm
 
         $value = $this->getValue($data, $name, $attributes);
 
+        $attributes = HtmlHelper::mergeAttributes($this->uploadAttributes, $attributes);
+
+        if ($this->getError($name, $attributes))
+        {
+            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+        }
+
         return form_upload($name, $value, $attributes);
     }    
 
@@ -182,12 +247,26 @@ abstract class BaseForm
     {
         $value = $this->getValue($data, $name, $attributes);
 
+        $attributes = HtmlHelper::mergeAttributes($this->multiselectAttributes, $attributes);
+
+        if ($this->getError($name, $attributes))
+        {
+            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+        }
+
         return form_multiselect($name, $list, $value, $attributes);
     }
 
     public function dropdown($data, $name, $list = [], array $attributes = []): string
     {
         $value = $this->getValue($data, $name, $attributes);
+
+        $attributes = HtmlHelper::mergeAttributes($this->dropdownAttributes, $attributes);
+
+        if ($this->getError($name, $attributes))
+        {
+            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+        }
 
         return form_dropdown($name, $list, $value, $attributes);
     }    
@@ -235,6 +314,13 @@ abstract class BaseForm
             $uncheck = '';
         }
 
+        $attributes = HtmlHelper::mergeAttributes($this->checkboxAttributes, $attributes);
+
+        if ($this->getError($name, $attributes))
+        {
+            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+        }
+
         return $uncheck . form_checkbox($name, (string) $value, $checked, $attributes);
     }    
 
@@ -249,21 +335,49 @@ abstract class BaseForm
             $checked = false;
         }
 
+        $attributes = HtmlHelper::mergeAttributes($this->radioAttributes, $attributes);
+
+        if ($this->getError($name, $attributes))
+        {
+            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+        }
+
         return form_radio($name, $value, $checked, $attributes);
     }
 
     public function submit($name, $value, array $attributes = []): string
     {
+        $attributes = HtmlHelper::mergeAttributes($this->submitAttributes, $attributes);
+
+        if ($this->getError($name, $attributes))
+        {
+            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+        }
+
         return form_submit($name, $value, $attributes);
     }
 
     public function reset($name, $value, array $attributes = []): string
     {
+        $attributes = HtmlHelper::mergeAttributes($this->resetAttributes, $attributes);   
+
+        if ($this->getError($name, $attributes))
+        {
+            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+        }
+
         return form_reset($name, $value, $attributes);
     }
 
     public function button($name, $value, array $attributes = []): string
     {
+        $attributes = HtmlHelper::mergeAttributes($this->buttonAttributes, $attributes);
+
+        if ($this->getError($name, $attributes))
+        {
+            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+        }
+
         return form_button($name, $value, $attributes);
     }    
 
@@ -278,18 +392,39 @@ abstract class BaseForm
             $id = '';
         }
 
+        $attributes = HtmlHelper::mergeAttributes($this->labelAttributes, $attributes);
+
+        if ($this->getError($name, $attributes))
+        {
+            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+        }
+
         return form_label($label, $id, $attributes);
     }
 
     public function datalist($data, $name, array $attributes = []): string
     {
         $value = $this->getValue($data, $name, $attributes);
+
+        $attributes = HtmlHelper::mergeAttributes($this->datalistAttributes, $attributes);
    
+        if ($this->getError($name, $attributes))
+        {
+            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+        }
+
         return form_datalist($name, $value, $attributes);
     }
 
     public function fieldset($label = '', array $attributes = []): string
     {
+        $attributes = HtmlHelper::mergeAttributes($this->fieldsetAttributes, $attributes);
+
+        if ($this->getError($name, $attributes))
+        {
+            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+        }
+
         return form_fieldset($label, $attributes);
     }
 
