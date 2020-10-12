@@ -12,10 +12,46 @@ use CodeIgniter\Entity;
 abstract class BaseForm
 {
 
-    public function __construct()
+    protected $_errors = [];    
+
+    public function __construct(array $errors = [])
     {
         helper(['form']);
+
+        $this->setErrors($errors);
     }
+
+    public function getErrors() : array
+    {
+        return $this->_errors;
+    }
+
+    public function setErrors($errors, $merge = false)
+    {
+        if ($merge && $this->_errors)
+        {
+            $errors = array_merge($this->_errors, $errors);
+        }
+
+        $this->_errors = $errors;
+    }
+
+    public function getError(string $name, array $attributes = [])
+    {
+        if (array_key_exists('error', $attributes))
+        {
+            return $attributes['error'];
+        }
+
+        $errors = $this->getErrors();
+
+        if (array_key_exists($name, $errors))
+        {
+            return $errors[$name];
+        }
+
+        return null;
+    }    
 
     public function formatExtensions(string $accept)
     {
