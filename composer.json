@@ -5,5 +5,8 @@
         "psr-4": {
             "BasicApp\\Form\\": ""
         }
+    },
+    "require": {
+        "basic-app/url-helper": "*"
     }
 }
