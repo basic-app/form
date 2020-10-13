@@ -6,6 +6,8 @@
  */
 namespace BasicApp\Form;
 
+use BasicApp\HtmlHelper\HtmlHelper;
+
 class FormGroup extends \BasicApp\Cell\BaseCell
 {
 
@@ -19,55 +21,53 @@ class FormGroup extends \BasicApp\Cell\BaseCell
 
     public $content;
 
-    public function __construct(Form $form, array $properties = [])
+    public $tag = 'div';
+
+    public $attributes = ['class' => 'form-group'];
+
+    public $labelTag = 'label';
+
+    public $labelAttributes = [];
+
+    public $hintTag = 'small';
+
+    public $hintAttributes = [];
+
+    public $errorTag = 'span';
+
+    public $errorAttributes = ['class' => 'error'];
+
+    public function __construct(BaseForm $form, array $properties = [])
     {
         parent::__construct($properties);
 
         $this->form = $form;
-
-        //$this->setProperties($properties);
     }
 
-    /*
-    public function setProperties(array $properties = [])
+    public function render(array $params = []) : string
     {
-        foreach($properties as $key => $value)
+        $properties = [
+            'label',
+            'labelTag',
+            'labelAttributes',
+            'hint',
+            'hintTag',
+            'hintAttributes',
+            'error',
+            'errorTag',
+            'errorAttributes',
+            'content'
+        ];
+
+        foreach($properties as $property)
         {
-            if (property_exists($this, $key))
+            if (!array_key_exists($property, $params))
             {
-                $this->$key = $value;
-            }
-            else
-            {
-                throw new FormException('Unknown property: ' . $key);
+                $params[$property] = $this->$property;
             }
         }
-    }
-    */
-
-    public function render(array $params = [])
-    {
-        if (!array_key_exists('label', $params))
-        {
-            $params['label'] = $this->label;
-        }
-        
-        if (!array_key_exists('hint', $params))
-        {
-            $params['hint'] = $this->hint;
-        }
-
-        if (!array_key_exists('error', $params))
-        {
-            $params['error'] = $this->error;
-        }
-
-        if (!array_key_exists('content', $params))
-        {
-            $params['content'] = $this->content;
-        }
-
-        return $this->view('form-group', $params);
+    
+        return HtmlHelper::tag($this->tag, $this->view('form-group', $params), $this->attributes);
     }
 
     public function hidden($data, $name, array $attributes = []): string

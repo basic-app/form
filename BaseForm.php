@@ -56,9 +56,14 @@ abstract class BaseForm
         $this->setErrors($errors);
     }
 
-    public function group(array $params = [])
+    public function group(?string $label = null, array $params = [])
     {
         $class = $this->groupClass;
+
+        if (!array_key_exists('label', $params))
+        {
+            $params['label'] = $label;
+        }              
 
         return new $class($this, $params);
     }
