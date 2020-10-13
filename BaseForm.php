@@ -15,7 +15,9 @@ abstract class BaseForm
 
     protected $_errors = [];
 
-    public $errorClass = 'is-invalid';
+    public $groupClass = FormGroup::class;
+
+    public $errorCssClass = 'is-invalid';
 
     public $formAttributes = [];
 
@@ -52,6 +54,13 @@ abstract class BaseForm
         helper(['form']);
 
         $this->setErrors($errors);
+    }
+
+    public function group(array $params = [])
+    {
+        $class = $this->groupClass;
+
+        return new $class($this, $params);
     }
 
     public function cell($class, array $options = [])
@@ -184,7 +193,7 @@ abstract class BaseForm
 
         if ($this->getError($name, $attributes))
         {
-            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+            $attributes = HtmlHelper::addClass($attributes, $this->errorCssClass);
         }
 
         return form_hidden($name, $value);
@@ -209,7 +218,7 @@ abstract class BaseForm
 
         if ($this->getError($name, $attributes))
         {
-            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+            $attributes = HtmlHelper::addClass($attributes, $this->errorCssClass);
         }
 
         return form_input($name, $value, $attributes, $type);
@@ -223,7 +232,7 @@ abstract class BaseForm
 
         if ($this->getError($name, $attributes))
         {
-            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+            $attributes = HtmlHelper::addClass($attributes, $this->errorCssClass);
         }
 
         return form_password($name, $value, $attributes);
@@ -242,7 +251,7 @@ abstract class BaseForm
 
         if ($this->getError($name, $attributes))
         {
-            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+            $attributes = HtmlHelper::addClass($attributes, $this->errorCssClass);
         }
 
         return form_upload($name, $value, $attributes);
@@ -256,7 +265,7 @@ abstract class BaseForm
 
         if ($this->getError($name, $attributes))
         {
-            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+            $attributes = HtmlHelper::addClass($attributes, $this->errorCssClass);
         }
 
         return form_multiselect($name, $list, $value, $attributes);
@@ -270,7 +279,7 @@ abstract class BaseForm
 
         if ($this->getError($name, $attributes))
         {
-            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+            $attributes = HtmlHelper::addClass($attributes, $this->errorCssClass);
         }
 
         return form_dropdown($name, $list, $value, $attributes);
@@ -323,7 +332,7 @@ abstract class BaseForm
 
         if ($this->getError($name, $attributes))
         {
-            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+            $attributes = HtmlHelper::addClass($attributes, $this->errorCssClass);
         }
 
         return $uncheck . form_checkbox($name, (string) $value, $checked, $attributes);
@@ -344,7 +353,7 @@ abstract class BaseForm
 
         if ($this->getError($name, $attributes))
         {
-            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+            $attributes = HtmlHelper::addClass($attributes, $this->errorCssClass);
         }
 
         return form_radio($name, $value, $checked, $attributes);
@@ -356,7 +365,7 @@ abstract class BaseForm
 
         if ($this->getError($name, $attributes))
         {
-            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+            $attributes = HtmlHelper::addClass($attributes, $this->errorCssClass);
         }
 
         return form_submit($name, $value, $attributes);
@@ -368,7 +377,7 @@ abstract class BaseForm
 
         if ($this->getError($name, $attributes))
         {
-            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+            $attributes = HtmlHelper::addClass($attributes, $this->errorCssClass);
         }
 
         return form_reset($name, $value, $attributes);
@@ -380,7 +389,7 @@ abstract class BaseForm
 
         if ($this->getError($name, $attributes))
         {
-            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+            $attributes = HtmlHelper::addClass($attributes, $this->errorCssClass);
         }
 
         return form_button($name, $value, $attributes);
@@ -401,7 +410,7 @@ abstract class BaseForm
 
         if ($this->getError($name, $attributes))
         {
-            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+            $attributes = HtmlHelper::addClass($attributes, $this->errorCssClass);
         }
 
         return form_label($label, $id, $attributes);
@@ -415,7 +424,7 @@ abstract class BaseForm
    
         if ($this->getError($name, $attributes))
         {
-            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+            $attributes = HtmlHelper::addClass($attributes, $this->errorCssClass);
         }
 
         return form_datalist($name, $value, $attributes);
@@ -427,7 +436,7 @@ abstract class BaseForm
 
         if ($this->getError($name, $attributes))
         {
-            $attributes = HtmlHelper::addClass($attributes, $this->errorClass);
+            $attributes = HtmlHelper::addClass($attributes, $this->errorCssClass);
         }
 
         return form_fieldset($label, $attributes);
