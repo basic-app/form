@@ -37,7 +37,7 @@ class FormGroup extends \BasicApp\Cell\BaseCell
 
     public $errorTag = 'span';
 
-    public $errorAttributes = ['class' => 'error'];
+    public $errorAttributes = ['class' => 'invalid-feedback'];
 
     public function __construct(BaseForm $form, array $properties = [])
     {
