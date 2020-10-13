@@ -13,6 +13,8 @@ class FormGroup extends \BasicApp\Cell\BaseCell
 
     protected $form;
 
+    public $showError = true;
+
     public $label;
 
     public $hint;
@@ -56,7 +58,8 @@ class FormGroup extends \BasicApp\Cell\BaseCell
             'error',
             'errorTag',
             'errorAttributes',
-            'content'
+            'content',
+            'showError'
         ];
 
         foreach($properties as $property)
