@@ -3,12 +3,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "BasicApp\\Form\\": ""
+            "BasicApp\\Form\\": "src"
         }
-    },
-    "require": {
-        "basic-app/cell": "*",
-        "basic-app/url-helper": "*",
-        "basic-app/html-helper": "*"
     }
 }
